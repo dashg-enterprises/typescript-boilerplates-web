@@ -1,0 +1,44 @@
+name: CD Step - Deploy to AWS
+
+on:
+  pull_request:
+    branches: 
+      - main
+    types: [closed]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 624626124579.dkr.ecr.us-east-1.amazonaws.com                   
+  ECR_REPOSITORY: dashg-template-builds
+  APPLICATION_NAME: dashg-template
+
+jobs:
+  deploy:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the repo
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - name: Configure AWS credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: Ensure build artifacts bucket exists
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: s3artifacts-stack
+          template: iac/s3.yaml
+          no-fail-on-empty-changeset: "1"
+          parameter-overrides: "BucketName=${{ env.BUCKET_NAME }}"
+      - name: Deploy build to bucket
+        run: aws s3 cp dist/ s3://${{ env.BUCKET_NAME }}/dist
