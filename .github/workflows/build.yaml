@@ -38,4 +38,4 @@ jobs:
           no-fail-on-empty-changeset: "1"
           parameter-overrides: "BucketName=${{ env.APPLICATION_NAME }}-bucket"
       - name: Deploy build to bucket
-        run: aws s3 cp dist/ s3://${{ env.APPLICATION_NAME }}/dist
+        run: aws s3 cp dist/ s3://${{ env.APPLICATION_NAME }}-bucket/ --recursive
