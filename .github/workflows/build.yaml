@@ -1,6 +1,7 @@
 name: CD Step - Deploy to AWS
 
-on: [push]
+on:
+  [push]
   # pull_request:
   #   branches: 
   #     - main
