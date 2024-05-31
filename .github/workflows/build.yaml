@@ -1,11 +1,10 @@
 name: CD Step - Deploy to AWS
 
 on:
-  [push]
-  # pull_request:
-  #   branches: 
-  #     - main
-  #   types: [closed]
+  pull_request:
+    branches: 
+      - main
+    types: [closed]
 
 env:
   AWS_REGION: us-east-1
@@ -13,7 +12,7 @@ env:
 
 jobs:
   deploy:
-    # if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - name: Get the repo
