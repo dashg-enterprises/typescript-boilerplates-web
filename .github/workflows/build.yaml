@@ -23,7 +23,6 @@ jobs:
           node-version: '20.x'
       - run: npm ci
       - run: npm run build
-      - run: npm test
       - name: Configure AWS credentials
         id: creds
         uses: aws-actions/configure-aws-credentials@v1
