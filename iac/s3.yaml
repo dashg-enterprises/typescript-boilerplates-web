@@ -17,7 +17,7 @@ Resources:
         Rules:
           - ObjectOwnership: ObjectWriter
       WebsiteConfiguration:
-        IndexDocument: dist/index.html
+        IndexDocument: index.html
         # ErrorDocument: error.html
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
