@@ -155,7 +155,22 @@ Resources:
         DefaultRootObject: index.html
         Comment: !Sub ${AWS::StackName} distribution
         DefaultCacheBehavior:
-          CachePolicyId: CachingOptimized
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          DefaultTTL: 3600 # in seconds, 1 hour
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          MaxTTL: 86400 # in seconds, 24 hours
+          MinTTL: 60 # in seconds, 1 min
           TargetOriginId: S3Origin
           ViewerProtocolPolicy: redirect-to-https
         HttpVersion: http2
