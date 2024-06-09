@@ -81,9 +81,8 @@ Resources:
         # Note: If a certificate with automatic (Route53) DNS validation contains both a base domain name and the wildcard for that domain (e.g., example.com and *.example.com), the corresponding DNS validation records are identical.
         # This seems to have caused problems for the automated CloudFormation DNS validation. Solving the problem by removing the redundant wildcard entries from the DomainValidationOption.  
         # Source: https://github.com/aws/aws-cdk/pull/9291 
-        - DomainName: !Sub '*.${ParamRootDomain}' # DNS record for the all subdomains
-          HostedZoneId: !Ref ParamHostedZoneId
-          ValidationDomain: !Ref ParamRootDomain  
+        # - DomainName: !Sub '*.${ParamRootDomain}' # DNS record for the all subdomains
+        #   HostedZoneId: !Ref ParamHostedZoneId
       ValidationMethod: DNS
       Tags:
         - Key: mastering-cloudformation
