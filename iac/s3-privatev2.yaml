@@ -128,7 +128,33 @@ Resources:
       Tags:
         - Key: mastering-cloudformation
           Value: !Ref ParamUniqueTagName
+
+   # S3 bucket policy to allow access from CloudFront OAC
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Statement:
+        - Action: s3:GetObject
+          Effect: Allow
+          Resource: !Sub ${S3Bucket.Arn}/*
+          Principal:
+            Service: cloudfront.amazonaws.com
+          Condition:
+            StringEquals:
+              AWS:SourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}
+        # - Effect: Deny
+        #   Principal: '*'
+        #   Action: 's3:*'
+        #   Resource: 
+        #     - !Sub ${S3Bucket.Arn}/*
+        #     - !GetAtt S3Bucket.Arn
+        #   Condition:
+        #     Bool: 
+        #       aws:SecureTransport: false
   ## ===================== END S3 BUCKETS ===================== ##
+
   ## ===================== BEGIN CDN ===================== ##
   CloudFrontOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
