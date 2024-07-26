@@ -116,7 +116,7 @@ Resources:
    # create S3 bucket for subdomain (such as www.example.com) and configure it to host a static website
   S3Bucket:
     Type: 'AWS::S3::Bucket'
-    DeletionPolicy: Retain # keep S3 bucket when its stack is deleted
+    # DeletionPolicy: Retain # keep S3 bucket when its stack is deleted
     Properties:
       BucketName: !Ref ParamRootDomain # use the name of subdomain with domain, such as www.example.com
       WebsiteConfiguration:
