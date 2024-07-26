@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../state/hooks'
 import { todoAdded, todoToggled } from '../state/appSlice'
 import { loadData } from "../state/side-effects/appThunk";
 
-export function App(props) {
+export function Example() {
     const [inputText, setInputText] = useState("");
     const [todoId, setTodoId] = useState(0);
     const todos = useAppSelector(s => s.app.todos);
