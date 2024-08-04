@@ -14,6 +14,9 @@ export function Example() {
     const dispatch = useAppDispatch();
     return <div>
         <h1>Welcome to our website!</h1>
+        <h2 className="text-3xl font-bold underline">
+            Tailwind is here!
+        </h2>
         <button>Click me</button>
         <div style={{width: 1000, height: 500}}>
             <Chart
