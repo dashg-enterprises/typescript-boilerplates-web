@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import App from "../App";
 import { Example } from "../pages/Example";

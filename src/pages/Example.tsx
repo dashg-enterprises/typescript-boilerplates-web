@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Chart } from "../components/Chart";
-import { data, velocityInFreeFall } from "./data";
+import { velocityInFreeFall } from "./data";
 
 import { useAppSelector, useAppDispatch } from '../state/hooks'
 import { todoAdded, todoToggled } from '../state/appSlice'
@@ -32,13 +32,13 @@ export function Example() {
             setInputText(e.target.value);
             setTodoId(todoId + 1);
         }}/>
-        <button onClick={e => {
+        <button onClick={() => {
             dispatch(todoAdded({id: todoId, text: inputText}));
         }}>Try this!</button>
         {todos.map(todo => <li>
-            {todo.text} <input type="checkbox" checked={todo.completed} onChange={e => dispatch(todoToggled({id: todo.id}))}/>
+            {todo.text} <input type="checkbox" checked={todo.completed} onChange={() => dispatch(todoToggled({id: todo.id}))}/>
         </li>)}
-        <button onClick={e => dispatch(loadData("", ""))}>Load data!</button>
+        <button onClick={() => dispatch(loadData())}>Load data!</button>
         {JSON.stringify(stuff)}
         
     </div>;

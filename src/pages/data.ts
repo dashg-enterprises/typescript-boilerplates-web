@@ -58,5 +58,5 @@ export type velocityFn = (times?: number[]) => {y: number, x: number}[];
 export const velocityInFreeFall: velocityFn = times => (times || createPoints(12)).map(t => ({y: ACCELERATION_DUE_TO_EARTH_GRAVITY * t, x: t}));
 
 function createPoints(n: number) {
-  return [...Array(12).keys()];
+  return [...Array(n).keys()];
 }
