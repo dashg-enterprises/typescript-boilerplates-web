@@ -11,7 +11,7 @@ env:
   APPLICATION_NAME: dashg-template-web
   tf_version: '1.9.3'
   tg_version: '0.63.6'
-  working_dir: 'terragrunt/dev/aws/spa-website'
+  working_dir: 'deploy/terragrunt/dev/aws/spa-website'
 
 jobs:
   deploy:
@@ -25,7 +25,7 @@ jobs:
         with:
           repository: dashg-enterprises/cloud-deployment
           token: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
-          path: .
+          path: deploy
           sparse-checkout: |
             terragrunt/dev/aws/spa-website
       - name: Use Node.js
