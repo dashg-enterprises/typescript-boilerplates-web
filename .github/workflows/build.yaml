@@ -1,22 +1,47 @@
 name: CD Step - Deploy to AWS
+run-name: Deploy to ${{ inputs.environment || 'dev' }} (${{ github.ref_name }})
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The environment to deploy"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - uat
+          - prod
   # pull_request:
   #   branches: 
   #     - main
   #   types: [closed]
 
+concurrency: one-deploy-at-a-time
+
 env:
   AWS_REGION: us-east-1
   APPLICATION_NAME: dashg-template-web
+  TF_VERSION: '1.9.3'
+  TG_VERSION: '0.63.6'
+  TG_DIR: 'deploy/terragrunt/${{ inputs.environment }}/aws/spa-website'
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged }}
+    #if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - name: Get the repo
         uses: actions/checkout@v4
+      - name: Checkout cloud-deployment
+        uses: actions/checkout@v4
+        with:
+          repository: dashg-enterprises/cloud-deployment
+          token: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
+          path: deploy
+          sparse-checkout: |
+            terragrunt/${{ inputs.environment }}/aws/spa-website
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -30,12 +55,15 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-      - name: Ensure build artifacts bucket exists
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
+      - name: Deploy
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          INPUT_PRE_EXEC_1: |
+            git config --global url."https://user:${{secrets.CLOUD_DEPLOYMENT_PAT}}@github.com".insteadOf "https://github.com"
+          INPUT_PRE_EXEC_2: |
+            git config --global --list
         with:
-          name: ${{ env.APPLICATION_NAME }}-stack
-          template: iac/s3-privatev2.yaml
-          no-fail-on-empty-changeset: "1"
-          parameter-overrides: "BucketName=${{ env.APPLICATION_NAME }}-bucket"
-      - name: Deploy build to bucket
-        run: aws s3 cp dist/ s3://${{ env.APPLICATION_NAME }}-bucket/ --recursive
+          TF_VERSION: ${{ env.TF_VERSION }}
+          TG_VERSION: ${{ env.TG_VERSION }}
+          tg_dir: ${{ env.TG_DIR }}
+          tg_command: 'apply --terragrunt-source ../../../../..//iac'
