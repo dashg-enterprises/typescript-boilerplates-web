@@ -47,6 +47,6 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'apply --terragrunt-source .//iac'
+          tg_command: 'apply --terragrunt-source ../../../../..//iac'
       # - name: Deploy build to bucket
       #   run: aws s3 cp dist/ s3://${{ env.APPLICATION_NAME }}-bucket/ --recursive
