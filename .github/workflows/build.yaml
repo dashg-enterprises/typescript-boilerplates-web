@@ -25,6 +25,7 @@ jobs:
         with:
           repository: dashg-enterprises/cloud-deployment
           token: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
+          path: .
           sparse-checkout: |
             terragrunt/dev/aws/spa-website
       - name: Use Node.js
