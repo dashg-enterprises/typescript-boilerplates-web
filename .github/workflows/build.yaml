@@ -3,16 +3,16 @@ run-name: Deploy to ${{ inputs.environment || 'dev' }} (${{ github.ref_name }})
 
 on: 
   workflow_dispatch:
-  inputs:
-    environment:
-      description: "The environment to deploy"
-      required: true
-      default: "dev"
-      type: choice
-      options:
-        - dev
-        - uat
-        - prod
+    inputs:
+      environment:
+        description: "The environment to deploy"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - uat
+          - prod
   # pull_request:
   #   branches: 
   #     - main
