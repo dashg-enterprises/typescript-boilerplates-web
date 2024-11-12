@@ -1,0 +1,81 @@
+# name: CI Build Step - Deploy Zip to S3
+name: CI Initialization Step
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "The command to run"
+        required: true
+        default: "apply"
+        type: choice
+        options:
+          - apply
+          - destroy
+
+env:
+  AWS_REGION: us-east-1
+  TF_VERSION: "1.9.3"
+  TG_VERSION: "0.63.6"
+  TG_DIR: "live/aws/_initializations/example-website"
+  TG_LOCAL_PATH: "deploy"
+  BUILD_ID: ${{ github.ref_name }}__${{ github.sha }}.zip
+
+jobs:
+  deploy:
+    name: Initialize certificate and hosted zone records
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20.x'
+      # - run: npm ci
+      # - run: npm run build
+      - name: Checkout cloud-deployment
+        uses: actions/checkout@v4
+        with:
+          repository: dashg-enterprises/cloud-deployment
+          token: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
+          path: ${{ env.TG_LOCAL_PATH }}
+          sparse-checkout: |
+            ${{ env.TG_DIR }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # - run: ls -R
+
+      - name: Ensure SPA website is initialized
+        uses: gruntwork-io/terragrunt-action@v2
+        env:
+          INPUT_PRE_EXEC_1: |
+            git config --global url."https://user:${{secrets.CLOUD_DEPLOYMENT_PAT}}@github.com".insteadOf "https://github.com"
+          INPUT_PRE_EXEC_2: |
+            git config --global --list
+        with:
+          TF_VERSION: ${{ env.TF_VERSION }}
+          TG_VERSION: ${{ env.TG_VERSION }}
+          tg_dir: ${{ env.TG_LOCAL_PATH }}/${{ env.TG_DIR }}
+          tg_command: "${{ inputs.command }} --terragrunt-source ../../../../..//iac/initialization"
+
+      # - uses: mad9000/actions-find-and-replace-string@2
+      #   id: sanitized-build-id
+      #   with:
+      #     source: ${{ env.BUILD_ID }}
+      #     find: '/'
+      #     replace: '_'
+
+      # - name: Deploy build to bucket
+      #   run: aws s3 cp out/index.zip s3://${{ env.S3_REPOSITORY }}/${{ steps.sanitized-build-id.outputs.value }}
+
+      # - name: "Print build id"
+      #   run: echo "### BUILD ID - ${{ steps.sanitized-build-id.outputs.value }}" >> $GITHUB_STEP_SUMMARY
