@@ -21,7 +21,7 @@ on:
 
 env:
   AWS_REGION: us-east-1              
-  S3_REPOSITORY: examplecontext-builds
+  S3_REPOSITORY: justthespot.io-builds
   GIT_ORGANIZATION_NAME: dashg-enterprises
   TG_INIT_DIR: 'live/aws/_initializations/example-website'
   TG_DEV_APP_DIR: 'live/aws/dev/applications/example-website'
