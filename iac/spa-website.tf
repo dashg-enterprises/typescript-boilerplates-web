@@ -16,4 +16,5 @@ module "spa_on_aws" {
   hosted_zone_id = "Z03829103FGKVJE6VHSAF"
   domain = "justthespot.io"
   subdomain = var.environment_subdomain
+  build_id = var.build_id
 }
