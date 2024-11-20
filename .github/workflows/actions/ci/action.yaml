@@ -79,6 +79,7 @@ runs:
       id: build-step
       shell: bash
       run: |
+        npm ci;
         npm run build;
         baseBuildId="${{ github.ref_name }}__${{ github.sha }}.zip";
         buildId=$(echo $baseBuildId | tr '/' '_');
