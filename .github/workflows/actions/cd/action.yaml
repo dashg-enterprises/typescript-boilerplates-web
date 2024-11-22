@@ -78,6 +78,11 @@ runs:
           git config --global url."https://user:${{inputs.CLOUD_DEPLOYMENT_PAT}}@github.com".insteadOf "https://github.com"
         INPUT_PRE_EXEC_3: |
           git config --global --list
+        INPUT_PRE_EXEC_4: |
+            curl “https://awscli.amazonaws.com/AWSCLIV2.pkg” -o “AWSCLIV2.pkg”
+            sudo installer -pkg AWSCLIV2.pkg -target /
+            which aws
+            aws --version
       with:
         TF_VERSION: ${{ inputs.TF_VERSION }}
         TG_VERSION: ${{ inputs.TG_VERSION }}
