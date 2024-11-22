@@ -66,7 +66,7 @@ runs:
     - name: Copy zip from S3
       shell: bash
       run: |
-        aws s3 cp s3://${{ inputs.S3_REPOSITORY }}-builds/${{ inputs.BUILD_ID }} ./${{ inputs.BUILD_ID }}
+        aws s3 cp s3://${{ inputs.S3_REPOSITORY }}/${{ inputs.BUILD_ID }} ./${{ inputs.BUILD_ID }}
         unzip ./${{ inputs.BUILD_ID }}
 
     - name: Deploy to AWS
