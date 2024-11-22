@@ -75,6 +75,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
+          BUILD_ID: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ env.S3_REPOSITORY }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_DEV_APP_DIR }}
   deploy-uat:
@@ -100,6 +102,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
+          BUILD_ID: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ env.S3_REPOSITORY }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_UAT_APP_DIR }}
   deploy-prod:
@@ -125,5 +129,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
+          BUILD_ID: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ env.S3_REPOSITORY }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_PROD_APP_DIR }}

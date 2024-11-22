@@ -13,6 +13,10 @@ inputs:
     description: 'AWS region'
   GIT_ORGANIZATION_NAME:
     description: 'Name of the organization to checkout cloud-deployment'
+  BUILD_ID:
+    description: The id of the build in S3
+  S3_REPOSITORY:
+    description: 'The name of the S3 bucket used as a build repository for zip files'    
   TG_SOURCE:
     description: "Relative path to the project's iac folder from TG_DIR"
   TG_DIR:
@@ -46,6 +50,24 @@ runs:
         aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ inputs.AWS_REGION }}
+
+    - name: Where am I
+      shell: bash
+      run: pwd
+
+    - name: Find AWS
+      shell: bash
+      run: which aws
+
+    - name: Print PATH
+      shell: bash
+      run: echo $PATH
+
+    - name: Copy zip from S3
+      shell: bash
+      run: |
+        aws s3 cp s3://${{ inputs.S3_REPOSITORY }}-builds/${{ inputs.BUILD_ID }} ./${{ inputs.BUILD_ID }}
+        unzip ./${{ inputs.BUILD_ID }}
 
     - name: Deploy to AWS
       uses: gruntwork-io/terragrunt-action@v2
