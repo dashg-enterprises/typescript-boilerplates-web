@@ -60,9 +60,8 @@ runs:
       run: which aws
 
     - name: Print PATH
-      id: print-path
       shell: bash
-      run: echo "WORKFLOW_PATH=$PATH" >> $GITHUB_OUTPUT
+      run: echo $PATH
 
     - name: Copy zip from S3
       shell: bash
@@ -80,7 +79,9 @@ runs:
         INPUT_PRE_EXEC_3: |
           git config --global --list
         INPUT_PRE_EXEC_4: |
-          export PATH=${{ steps.print-path.outputs.WORKFLOW_PATH }}:$PATH
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
       with:
         TF_VERSION: ${{ inputs.TF_VERSION }}
         TG_VERSION: ${{ inputs.TG_VERSION }}
