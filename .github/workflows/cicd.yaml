@@ -1,4 +1,4 @@
-name: CI CD Workflow - Build Image and Deploy to Environments
+name: 'CI-CD: Build and Deploy to Environments'
 
 on: 
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: CD Step - Deploy to AWS
+name: 'CD: Deploy to Environment'
 run-name: Execute ${{ inputs.command }} on ${{ inputs.environment }} for (${{ github.ref_name }})
 
 on: 

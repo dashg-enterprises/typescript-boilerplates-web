@@ -3,16 +3,12 @@ description: Project deploy action
 inputs:
   CLOUD_DEPLOYMENT_PAT:
     description: 'PAT to checkout cloud-deployment'
-    default: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
   DASHG_CLOUD_PLATFORM_PAT:
     description: 'PAT to access dashg-enterprises/cloud-platform'
-    default: ${{ secrets.DASHG_CLOUD_PLATFORM_PAT }}
   AWS_ACCESS_KEY_ID:
     description: 'AWS access key id'
-    default: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY:
     description: 'AWS access key secret'
-    default: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION:
     description: 'AWS region'
   GIT_ORGANIZATION_NAME:
