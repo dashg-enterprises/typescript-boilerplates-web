@@ -51,3 +51,4 @@ jobs:
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_APP_DIR }}
+          TG_COMMAND: ${{ inputs.command }}
