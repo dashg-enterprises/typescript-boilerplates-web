@@ -3,20 +3,20 @@ description: Project deploy action
 inputs:
   CLOUD_DEPLOYMENT_PAT:
     description: 'PAT to checkout cloud-deployment'
+    default: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
   DASHG_CLOUD_PLATFORM_PAT:
     description: 'PAT to access dashg-enterprises/cloud-platform'
+    default: ${{ secrets.DASHG_CLOUD_PLATFORM_PAT }}
   AWS_ACCESS_KEY_ID:
     description: 'AWS access key id'
+    default: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY:
     description: 'AWS access key secret'
+    default: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_REGION:
     description: 'AWS region'
   GIT_ORGANIZATION_NAME:
-    description: 'Name of the organization to checkout cloud-deployment'
-  BUILD_ID:
-    description: The id of the build in S3
-  S3_REPOSITORY:
-    description: 'The name of the S3 bucket used as a build repository for zip files'    
+    description: 'Name of the organization to checkout cloud-deployment' 
   TG_SOURCE:
     description: "Relative path to the project's iac folder from TG_DIR"
   TG_DIR:
@@ -50,25 +50,6 @@ runs:
         aws-access-key-id: ${{ inputs.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ inputs.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ inputs.AWS_REGION }}
-
-    - name: Where am I
-      shell: bash
-      run: pwd
-
-    - name: Find AWS
-      shell: bash
-      run: which aws
-
-    - name: Print PATH
-      shell: bash
-      run: echo $PATH
-
-    - name: Copy zip from S3
-      shell: bash
-      run: |
-        aws s3 cp s3://${{ inputs.S3_REPOSITORY }}/${{ inputs.BUILD_ID }} ./${{ inputs.BUILD_ID }}
-        unzip ./${{ inputs.BUILD_ID }}
-
     - name: Deploy to AWS
       uses: gruntwork-io/terragrunt-action@v2
       env:

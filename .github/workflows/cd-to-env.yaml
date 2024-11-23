@@ -1,0 +1,49 @@
+name: CD Step - Deploy to AWS
+run-name: Execute ${{ inputs.command }} on ${{ inputs.environment }} for (${{ github.ref_name }})
+
+on: 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "The environment to deploy"
+        required: true
+        default: "dev"
+        type: choice
+        options:
+          - dev
+          - uat
+          - prod
+      command:
+        description: "The command to run"
+        required: true
+        default: "apply"
+        type: choice
+        options:
+          - apply
+          - destroy
+  # pull_request:
+  #   branches: 
+  #     - main
+  #   types: [closed]
+
+concurrency: one-deploy-at-a-time
+
+env:
+  AWS_REGION: us-east-1              
+  GIT_ORGANIZATION_NAME: dashg-enterprises
+  TG_APP_DIR: 'live/aws/${{ inputs.environment }}/applications/example-website'
+  TG_APP_SOURCE: '../../../../../..//iac'
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/workflows/actions/cd
+        with: 
+          AWS_REGION: ${{ env.AWS_REGION }}
+          GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
+          TG_SOURCE: ${{ env.TG_APP_SOURCE }}
+          TG_DIR: ${{ env.TG_APP_DIR }}
