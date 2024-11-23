@@ -13,6 +13,10 @@ inputs:
     description: 'AWS region'
   GIT_ORGANIZATION_NAME:
     description: 'Name of the organization to checkout cloud-deployment' 
+  BUILD_ID:
+    description: The id of the build in S3
+  S3_REPOSITORY:
+    description: 'The name of the S3 bucket used as a build repository for zip files'
   TG_SOURCE:
     description: "Relative path to the project's iac folder from TG_DIR"
   TG_DIR:

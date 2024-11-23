@@ -31,6 +31,8 @@ concurrency: one-deploy-at-a-time
 env:
   AWS_REGION: us-east-1              
   GIT_ORGANIZATION_NAME: dashg-enterprises
+  S3_REPOSITORY: justthespot.io-builds
+  BUILD_ID: ${{ github.ref_name }}__${{ github.sha }}.zip
   TG_APP_DIR: 'live/aws/${{ inputs.environment }}/applications/example-website'
   TG_APP_SOURCE: '../../../../../..//iac'
 
@@ -49,6 +51,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
+          BUILD_ID: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ env.S3_REPOSITORY }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_APP_DIR }}
           TG_COMMAND: ${{ inputs.command }}
