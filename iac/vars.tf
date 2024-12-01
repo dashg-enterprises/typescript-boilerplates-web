@@ -12,3 +12,8 @@ variable "build_id" {
   description = "The id of the build in S3 (the zipped dist)"
   type        = string
 }
+
+variable "cert_arn" {
+  description = "The id of the build in S3 (the zipped dist)"
+  type        = string
+}

@@ -17,4 +17,5 @@ module "spa_on_aws" {
   domain = "justthespot.io"
   subdomain = var.environment_subdomain
   build_id = var.build_id
+  cert_arn = var.cert_arn
 }
