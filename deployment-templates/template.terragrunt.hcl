@@ -14,7 +14,7 @@ terraform {
   source = "git::${local.repo_url}.git//iac?ref=main"
 }
 
-dependency "environment" {
+dependency "initialization" {
   config_path = "../../../_initializations/${local.repo_name}"
 }
 
