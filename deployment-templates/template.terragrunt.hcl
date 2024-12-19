@@ -4,14 +4,14 @@ include "root" {
 
 locals {
   build_id = ""
-  repo_url = ""
+  repo_path = ""
   repo_name = ""
   environment_name = ""
   environment_subdomain = ""
 }
 
 terraform {
-  source = "git::${local.repo_url}.git//iac?ref=main"
+  source = "git::https://github.com/${local.repo_path}.git//iac?ref=main"
 }
 
 dependency "initialization" {
