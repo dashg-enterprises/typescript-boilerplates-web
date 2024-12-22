@@ -17,8 +17,8 @@ env:
   AWS_REGION: us-east-1
   GIT_ORGANIZATION_NAME: ${{ github.repository_owner }}
   TG_DIR: "live/aws/_initializations/${{ github.event.repository.name }}"
-  BUILD_ID: ${{ github.ref_name }}__${{ github.sha }}.zip
-
+  TG_SOURCE: '../../../../..//iac/initialization'
+  
 jobs:
   build:
     name: Build Image
@@ -37,6 +37,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
-          TG_SOURCE: ${{ env.TG_INIT_SOURCE }}
-          TG_DIR: ${{ env.TG_INIT_DIR }}
+          TG_SOURCE: ${{ env.TG_SOURCE }}
+          TG_DIR: ${{ env.TG_DIR }}
           TG_COMMAND: ${{ inputs.command }}

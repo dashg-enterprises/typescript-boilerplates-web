@@ -77,6 +77,7 @@ runs:
         tg_command: '${{ inputs.TG_COMMAND }} --terragrunt-source ${{ inputs.TG_SOURCE }}'
 
     - name: Yield raw output
+      if: ${{ inputs.TG_COMMAND == 'apply' }}
       id: tg_ci_output
       uses: gruntwork-io/terragrunt-action@v2
       env:
@@ -91,6 +92,7 @@ runs:
         tg_command: 'output -raw build_bucket --terragrunt-source ${{ inputs.TG_SOURCE }}'
 
     - name: Deploy build to bucket
+      if: ${{ inputs.TG_COMMAND == 'apply' }}
       id: build-step
       shell: bash
       env:
