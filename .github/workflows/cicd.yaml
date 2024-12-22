@@ -65,7 +65,7 @@ jobs:
           TG_APP_DIR: ${{ env.TG_DEV_APP_DIR }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
@@ -75,7 +75,7 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_DEV_APP_DIR }}
   deploy-uat:
@@ -92,7 +92,7 @@ jobs:
           TG_APP_DIR: ${{ env.TG_UAT_APP_DIR }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
@@ -102,7 +102,7 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_UAT_APP_DIR }}
   deploy-prod:
@@ -119,7 +119,7 @@ jobs:
           TG_APP_DIR: ${{ env.TG_PROD_APP_DIR }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
@@ -129,6 +129,6 @@ jobs:
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
           BUILD_ID: ${{ needs.build.outputs.build_id }}
-          S3_REPOSITORY: ${{ needs.build.outputs.build_id }}
+          S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
           TG_SOURCE: ${{ env.TG_APP_SOURCE }}
           TG_DIR: ${{ env.TG_PROD_APP_DIR }}
