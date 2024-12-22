@@ -20,8 +20,6 @@ inputs:
     description: 'AWS region'
   GIT_ORGANIZATION_NAME:
     description: 'Name of the organization to checkout cloud-deployment'
-  S3_REPOSITORY:
-    description: 'The name of the S3 bucket to use as a build repository for zip files'
   TG_DIR:
     description: 'The cloud-deployment directory to checkout'
   TG_SOURCE:
@@ -102,5 +100,5 @@ runs:
         npm run build;
         baseBuildId="${{ github.ref_name }}__${{ github.sha }}.zip";
         buildId=$(echo $baseBuildId | tr '/' '_');
-        aws s3 cp dist.zip s3://${{ inputs.S3_REPOSITORY }}/$buildId;
+        aws s3 cp dist.zip s3://$S3_REPOSITORY/$buildId;
         echo "build_id=$buildId" >> $GITHUB_OUTPUT;

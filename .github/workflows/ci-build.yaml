@@ -15,11 +15,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  TF_VERSION: "1.9.3"
-  TG_VERSION: "0.63.6"
   GIT_ORGANIZATION_NAME: ${{ github.repository_owner }}
   TG_DIR: "live/aws/_initializations/${{ github.event.repository.name }}"
-  TG_LOCAL_PATH: "deploy"
   BUILD_ID: ${{ github.ref_name }}__${{ github.sha }}.zip
 
 jobs:
@@ -40,7 +37,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ env.AWS_REGION }}
           GIT_ORGANIZATION_NAME: ${{ env.GIT_ORGANIZATION_NAME }}
-          S3_REPOSITORY: ${{ env.S3_REPOSITORY }}
           TG_SOURCE: ${{ env.TG_INIT_SOURCE }}
           TG_DIR: ${{ env.TG_INIT_DIR }}
           TG_COMMAND: ${{ inputs.command }}
