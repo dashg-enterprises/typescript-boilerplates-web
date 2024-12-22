@@ -4,6 +4,9 @@ outputs:
   build_id:
     description: "Application build images as output from CI" 
     value: ${{ steps.build-step.outputs.build_id }}
+  build_bucket:
+    description: "Application build images as output from CI" 
+    value: ${{ steps.build-step.outputs.build_bucket }}
 inputs:
   CLOUD_DEPLOYMENT_PAT:
     description: 'PAT to checkout cloud-deployment'
@@ -75,9 +78,25 @@ runs:
         tg_dir: ${{ inputs.TG_LOCAL_PATH }}/${{ inputs.TG_DIR }}
         tg_command: '${{ inputs.TG_COMMAND }} --terragrunt-source ${{ inputs.TG_SOURCE }}'
 
+    - name: Yield raw output
+      id: tg_ci_output
+      uses: gruntwork-io/terragrunt-action@v2
+      env:
+        INPUT_PRE_EXEC_1: |
+          git config --global url."https://user:${{inputs.DASHG_CLOUD_PLATFORM_PAT}}@github.com/dashg-enterprises/cloud-platform".insteadOf "https://github.com/dashg-enterprises/cloud-platform"
+        INPUT_PRE_EXEC_2: |
+          git config --global url."https://user:${{inputs.CLOUD_DEPLOYMENT_PAT}}@github.com".insteadOf "https://github.com"
+      with:
+        TF_VERSION: ${{ inputs.TF_VERSION }}
+        TG_VERSION: ${{ inputs.TG_VERSION }}
+        tg_dir: ${{ inputs.TG_LOCAL_PATH }}/${{ inputs.TG_DIR }}
+        tg_command: 'output -raw build_bucket --terragrunt-source ${{ inputs.TG_SOURCE }}'
+
     - name: Deploy build to bucket
       id: build-step
       shell: bash
+      env:
+        S3_REPOSITORY: ${{ steps.tg_ci_output.outputs.tg_action_output }}
       run: |
         npm ci;
         npm run build;
