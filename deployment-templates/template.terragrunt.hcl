@@ -22,5 +22,5 @@ inputs = {
   environment           = local.environment_name
   environment_subdomain = local.environment_subdomain
   build_id              = local.build_id
-  cert_arn              = dependency.environment.outputs.cert_arn
+  cert_arn              = dependency.initialization.outputs.cert_arn
 }
