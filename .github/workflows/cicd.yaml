@@ -60,6 +60,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/commit-build-to-cloud-deployment
+        name: Commit build to cloud-deployment dev
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           TG_APP_DIR: ${{ env.TG_DEV_APP_DIR }}
@@ -67,6 +68,7 @@ jobs:
           BUILD_ID: ${{ needs.build.outputs.build_id }}
           S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
+        name: Run CD action to dev
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           DASHG_CLOUD_PLATFORM_PAT: ${{ secrets.DASHG_CLOUD_PLATFORM_PAT }}
@@ -87,6 +89,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/commit-build-to-cloud-deployment
+        name: Commit build to cloud-deployment uat
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           TG_APP_DIR: ${{ env.TG_UAT_APP_DIR }}
@@ -94,6 +97,7 @@ jobs:
           BUILD_ID: ${{ needs.build.outputs.build_id }}
           S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
+        name: Run CD action to uat
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           DASHG_CLOUD_PLATFORM_PAT: ${{ secrets.DASHG_CLOUD_PLATFORM_PAT }}
@@ -114,6 +118,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/workflows/actions/commit-build-to-cloud-deployment
+        name: Commit build to cloud-deployment prod
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           TG_APP_DIR: ${{ env.TG_PROD_APP_DIR }}
@@ -121,6 +126,7 @@ jobs:
           BUILD_ID: ${{ needs.build.outputs.build_id }}
           S3_REPOSITORY: ${{ needs.build.outputs.build_bucket }}
       - uses: ./.github/workflows/actions/cd
+        name: Run CD action to prod
         with: 
           CLOUD_DEPLOYMENT_PAT: ${{ secrets.CLOUD_DEPLOYMENT_PAT }}
           DASHG_CLOUD_PLATFORM_PAT: ${{ secrets.DASHG_CLOUD_PLATFORM_PAT }}

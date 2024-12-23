@@ -6,7 +6,7 @@ outputs:
     value: ${{ steps.build-step.outputs.build_id }}
   build_bucket:
     description: "Application build images as output from CI" 
-    value: ${{ steps.tg_ci_output.outputs.build_bucket }}
+    value: ${{ steps.tg_ci_output.outputs.tg_action_output }}
 inputs:
   CLOUD_DEPLOYMENT_PAT:
     description: 'PAT to checkout cloud-deployment'
