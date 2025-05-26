@@ -1,14 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.59.0"
-    }
-  }
-
-  required_version = ">= 1.2.0"
-}
-
 locals {
   application_name = "just-the-spot"
   hosted_zone_id = "Z03829103FGKVJE6VHSAF"
