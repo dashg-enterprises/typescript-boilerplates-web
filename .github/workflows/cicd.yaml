@@ -10,13 +10,13 @@ on:
         type: boolean
       uat:
         description: "Should deploy to uat"
-        required: true
-        default: true
+        required: false
+        default: false
         type: boolean
       prod:
         description: "Should deploy to prod"
-        required: true
-        default: true
+        required: false
+        default: false
         type: boolean
 
 env:
